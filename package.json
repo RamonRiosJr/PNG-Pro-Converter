@@ -1,6 +1,16 @@
 {
-  "name": "png-image-converter-&-compressor",
+  "name": "png-pro-converter",
   "private": true,
+  "description": "A fast, privacy-first, client-side application for converting and compressing images to PNG format.",
+  "keywords": [
+    "react",
+    "vite",
+    "typescript",
+    "png-converter",
+    "image-compression",
+    "client-side",
+    "privacy"
+  ],
   "version": "0.0.0",
   "type": "module",
   "scripts": {
