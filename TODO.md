@@ -60,3 +60,34 @@ As a Senior Systems Architect, here is the brutal evaluation of the current stat
 - [ ] **Architecture**: Extract `App.tsx` state and processing into `useImageProcessor` hook.
 - [ ] **Feature**: Support WebAssembly PNG compression (e.g. `squoosh` / `oxipng`) for genuine *compression*, rather than just format conversion.
 - [ ] **Testing**: Implement a Vitest configuration and achieve 80% coverage on utils and hooks.
+
+---
+
+## 🚀 Future SaaS Expansion Features
+
+To evolve this from a simple utility into a compelling SaaS product, we need to add features that provide enough value that users would willingly pay (or at least register) to use them.
+
+### 1. Cloud Storage Integration (Google Drive, Dropbox)
+
+- **Feature**: Allow users to pick source images directly from cloud storage and save the converted results back.
+- **Value**: Saves users the step of downloading gigabytes of photos locally just to convert them.
+
+### 2. Pro Compression Algorithms (WASM-based)
+
+- **Feature**: Introduce premium compression algorithms (e.g., `oxipng` or `mozjpeg` via WebAssembly) that offer tunable lossy/lossless sliders, providing far superior byte reductions compared to basic browser API outputs.
+- **Value**: Essential for developers and agencies dealing with strict CDN payload limits.
+
+### 3. Batch Watermarking & Branding
+
+- **Feature**: Option to upload a logo and apply batch watermarks (adjusting opacity, position, and tiling) to hundreds of images before downloading.
+- **Value**: Highly useful for photographers and content creators protecting their IP.
+
+### 4. Advanced Format Support (HEIC, TIFF, AVIF, PDF)
+
+- **Feature**: Expand the supported conversions using advanced libraries. For example, rendering the first page of a PDF to a PNG, or handling modern formats like AVIF.
+- **Value**: Makes the tool a one-stop-shop for any image transformation need.
+
+### 5. API Access & Automation
+
+- **Feature**: Provide a developer API for direct integration, and native integrations with tools like Zapier/Make.
+- **Value**: The gold standard for B2B SaaS MRR; businesses will pay for reliable API endpoints to automate their workflows.
