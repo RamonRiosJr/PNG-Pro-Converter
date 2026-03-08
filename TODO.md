@@ -96,3 +96,11 @@ To evolve this from a simple utility into a compelling SaaS product, we need to 
 
 - **Feature**: A fully authenticated dashboard using a PostgreSQL backend. Will include OAuth integrations for **Google**, **Microsoft**, alongside standard **Email/Password** Signup/Login flows.
 - **Value**: Allows users to save conversion history, manage cloud storage connection tokens, purchase paid subscription tiers (e.g., via Stripe), and manage API keys for integrations.
+
+### 7. Next-Gen "Top Tech" Compression Suite (WASM & WebCodecs)
+
+- **Feature**: Right now, the app uses standard HTML5 Canvas outputs which favors 100% quality but terrible file sizes. We need to implement bleeding-edge **WebAssembly (WASM)** modules to do heavy mathematical compression entirely in the browser:
+  - **OxiPNG (WASM)**: For absolute maximum lossless PNG compression (multithreaded via Web Workers).
+  - **libimagequant (WASM)**: For high-quality, smart lossy PNG compression (creating PNG-8s that are 70%+ smaller but look identical to the naked eye).
+  - **WebCodecs API Hardware Acceleration**: Leverage the user's native GPU via the modern `WebCodecs API` to rapidly transcode into modern, vastly smaller web formats like AVIF and WebP for users who don't strictly need PNGs.
+- **Value**: Establishes the product as a state-of-the-art engineering tool. High-end compression can be locked behind the "Pro" Tier, convincing developers and agencies to upgrade.
