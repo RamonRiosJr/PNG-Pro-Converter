@@ -1,0 +1,5 @@
+{
+  "name": "PNG Image Converter & Compressor",
+  "description": "A web application to batch convert and compress images to high-quality PNG format. Upload your images, process them in your browser, and download them individually or as a single zip file, all while preserving original filenames.",
+  "requestFramePermissions": []
+}
