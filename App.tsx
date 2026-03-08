@@ -7,12 +7,7 @@ import { ImageList } from './components/ImageList';
 import { ActionButton } from './components/ActionButton';
 import { DownloadIcon, ZapIcon, ArrowLeftIcon } from './components/icons';
 
-// Make JSZip available in the window scope for TypeScript
-declare global {
-  interface Window {
-    JSZip: any;
-  }
-}
+import JSZip from 'jszip';
 
 const App: React.FC = () => {
   const [images, setImages] = useState<ProcessedImage[]>([]);
@@ -61,7 +56,7 @@ const App: React.FC = () => {
             });
           },
           'image/png',
-          1.0 
+          1.0
         );
       };
       img.onerror = () => {
@@ -72,11 +67,11 @@ const App: React.FC = () => {
 
   const handleProcessImages = useCallback(async () => {
     setAppStatus('processing');
-    setImages((prevImages) => 
+    setImages((prevImages) =>
       prevImages.map((img) => ({ ...img, status: 'processing' }))
     );
 
-    const processingPromises = images.map((image) => 
+    const processingPromises = images.map((image) =>
       processImage(image)
         .then(processed => {
           setImages(prev => prev.map(img => img.id === processed.id ? processed : img));
@@ -95,11 +90,11 @@ const App: React.FC = () => {
   }, [images, processImage]);
 
   const handleDownloadAll = async () => {
-    if (!window.JSZip) {
+    if (!JSZip) {
       alert('JSZip library not found. Please check your internet connection.');
       return;
     }
-    const zip = new window.JSZip();
+    const zip = new JSZip();
     images
       .filter((image) => image.status === 'done' && image.processedBlob)
       .forEach((image) => {
@@ -114,7 +109,7 @@ const App: React.FC = () => {
     link.click();
     document.body.removeChild(link);
   };
-  
+
   const handleReset = () => {
     images.forEach(image => URL.revokeObjectURL(image.previewUrl));
     setImages([]);
@@ -125,7 +120,7 @@ const App: React.FC = () => {
     <div className="min-h-screen font-sans antialiased">
       <main className="container mx-auto px-4 py-8 md:py-12">
         <Header />
-        
+
         {images.length === 0 ? (
           <FileUploader onFileSelect={handleFileSelect} />
         ) : (
@@ -151,7 +146,7 @@ const App: React.FC = () => {
                 )}
               </div>
             </div>
-            
+
             <ImageList images={images} />
           </div>
         )}
