@@ -91,3 +91,8 @@ To evolve this from a simple utility into a compelling SaaS product, we need to 
 
 - **Feature**: Provide a developer API for direct integration, and native integrations with tools like Zapier/Make.
 - **Value**: The gold standard for B2B SaaS MRR; businesses will pay for reliable API endpoints to automate their workflows.
+
+### 6. User Account & Authentication System (SaaS Foundation)
+
+- **Feature**: A fully authenticated dashboard using a PostgreSQL backend. Will include OAuth integrations for **Google**, **Microsoft**, alongside standard **Email/Password** Signup/Login flows.
+- **Value**: Allows users to save conversion history, manage cloud storage connection tokens, purchase paid subscription tiers (e.g., via Stripe), and manage API keys for integrations.
