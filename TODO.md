@@ -117,7 +117,7 @@ To evolve this from a simple utility into a compelling SaaS product, we need to 
 
 ### 10. True Progressive Web App (PWA) & Frictionless Install
 
-- **Feature**: Convert the application into a pure PWA. Add Service Workers and manifest configurations so the app can be installed directly to macOS, Windows, iOS, and Android home screens bypassing app stores entirely.
+- [x] **Feature**: Convert the application into a pure PWA. Add Service Workers and manifest configurations so the app can be installed directly to macOS, Windows, iOS, and Android home screens bypassing app stores entirely.
 - **Value**: Bypassing the 30% Apple/Google tax. Furthermore, having a persistent icon on the user's machine radically reduces churn.
 
 ### 11. Conversion Physics & Telemetry (PostHog)
