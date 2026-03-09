@@ -3,12 +3,16 @@ import React from 'react';
 
 export const Header: React.FC = () => {
   return (
-    <header className="text-center mb-8 md:mb-12">
-      <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300 mb-2">
+    <header className="relative text-center mb-12 md:mb-20 pt-8">
+      {/* Decorative top glow matching a "Pro" engineering look */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-1 bg-blue-500/30 blur-2xl rounded-full"></div>
+
+      <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-cyan-400 to-teal-300 mb-4 drop-shadow-sm">
         PNG Pro Converter
       </h1>
-      <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">
-        Batch convert and compress your images to web-ready PNGs. Fast, private, and all in your browser.
+      <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto font-medium tracking-wide">
+        Batch convert and compress your images to web-ready PNGs. <br className="hidden md:block" />
+        <span className="text-slate-300">Fast, private, and 100% in your browser.</span>
       </p>
     </header>
   );
