@@ -1,18 +1,42 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { ProcessedImage } from '../types';
 
 export const useImageProcessor = () => {
     const [images, setImages] = useState<ProcessedImage[]>([]);
     const [appStatus, setAppStatus] = useState<'idle' | 'processing' | 'done'>('idle');
 
+    // Prevent memory leaks when the overall hook unmounts
+    useEffect(() => {
+        return () => {
+            images.forEach(image => {
+                if (image.previewUrl) URL.revokeObjectURL(image.previewUrl);
+            });
+        };
+    }, [images]);
+
     const handleFileSelect = useCallback((files: FileList) => {
-        const newImages: ProcessedImage[] = Array.from(files).map((file, index) => {
+        // Revoke old URLs to prevent memory leaks during re-uploads
+        setImages(prevImages => {
+            prevImages.forEach(img => URL.revokeObjectURL(img.previewUrl));
+            return prevImages;
+        });
+
+        const validFiles = Array.from(files).filter(file => {
+            // Reject GIFs as they drop frames inherently in Canvas operations.
+            if (file.type === 'image/gif') {
+                alert(`Cannot process ${file.name}: Animated GIFs are not supported for basic conversion as they flatten to a single frame.`);
+                return false;
+            }
+            return true;
+        });
+
+        const newImages: ProcessedImage[] = validFiles.map((file, index) => {
             const originalName = file.name.substring(0, file.name.lastIndexOf('.'));
             return {
                 id: `${Date.now()}-${index}`,
                 originalFile: file,
                 processedBlob: null,
-                previewUrl: URL.createObjectURL(file), // Memory leak risk flagged, will fix fully alongside Workers
+                previewUrl: URL.createObjectURL(file),
                 newName: `${originalName}.png`,
                 originalSize: file.size,
                 newSize: null,
@@ -24,36 +48,32 @@ export const useImageProcessor = () => {
 
     const processImage = useCallback(async (image: ProcessedImage): Promise<ProcessedImage> => {
         return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.src = image.previewUrl;
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                const ctx = canvas.getContext('2d');
-                if (!ctx) {
-                    return reject(new Error('Could not get canvas context.'));
+            const worker = new Worker(new URL('../workers/imageWorker.ts', import.meta.url), {
+                type: 'module'
+            });
+
+            worker.onmessage = (e: MessageEvent) => {
+                const { blob, success, error } = e.data;
+                worker.terminate(); // Kill worker immediately to free memory
+
+                if (success) {
+                    resolve({
+                        ...image,
+                        processedBlob: blob,
+                        newSize: blob.size,
+                        status: 'done',
+                    });
+                } else {
+                    reject(new Error(error || 'Worker processing failed.'));
                 }
-                ctx.drawImage(img, 0, 0);
-                canvas.toBlob(
-                    (blob) => {
-                        if (!blob) {
-                            return reject(new Error('Canvas toBlob failed.'));
-                        }
-                        resolve({
-                            ...image,
-                            processedBlob: blob,
-                            newSize: blob.size,
-                            status: 'done',
-                        });
-                    },
-                    'image/png',
-                    1.0
-                );
             };
-            img.onerror = () => {
-                reject(new Error('Failed to load image for processing.'));
+
+            worker.onerror = (e: ErrorEvent) => {
+                worker.terminate();
+                reject(new Error(e.message || 'Worker thread crashed.'));
             };
+
+            worker.postMessage({ id: image.id, file: image.originalFile });
         });
     }, []);
 
@@ -63,8 +83,15 @@ export const useImageProcessor = () => {
             prevImages.map((img) => ({ ...img, status: 'processing' }))
         );
 
-        const processingPromises = images.map((image) =>
-            processImage(image)
+        // Limit concurrency to hardware cores to prevent crashing the browser completely
+        // Hard limit at 4 parallel workers by chunking (lazy-eval)
+        const chunkSize = navigator.hardwareConcurrency || 4;
+
+        const processQueue = [...images];
+        const executing = new Set<Promise<ProcessedImage>>();
+
+        for (const image of processQueue) {
+            const p = processImage(image)
                 .then(processed => {
                     setImages(prev => prev.map(img => img.id === processed.id ? processed : img));
                     return processed;
@@ -73,11 +100,18 @@ export const useImageProcessor = () => {
                     console.error(`Failed to process ${image.originalFile.name}:`, error);
                     const errorResult = { ...image, status: 'error' as const, error: error.message };
                     setImages(prev => prev.map(img => img.id === errorResult.id ? errorResult : img));
-                    return errorResult;
-                })
-        );
+                    return errorResult as ProcessedImage;
+                });
 
-        await Promise.allSettled(processingPromises);
+            executing.add(p);
+            p.finally(() => executing.delete(p));
+
+            if (executing.size >= chunkSize) {
+                await Promise.race(executing);
+            }
+        }
+
+        await Promise.all(executing);
         setAppStatus('done');
     }, [images, processImage]);
 
