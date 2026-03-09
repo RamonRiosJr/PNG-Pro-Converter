@@ -25,6 +25,9 @@ export default defineConfig(({ mode }) => {
       globals: true,
       environment: 'jsdom',
       setupFiles: './setupTests.ts',
+    },
+    worker: {
+      format: 'es'
     }
   };
 });

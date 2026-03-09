@@ -18,9 +18,24 @@ self.addEventListener('message', async (e: MessageEvent) => {
 
         ctx.drawImage(bitmap, 0, 0);
 
-        // Convert directly to a PNG blob using the mathematical capabilities
-        // of the offscreen browser engine, completely free from the main thread.
-        const blob = await canvas.convertToBlob({ type: 'image/png', quality: 1.0 });
+        // We extract the raw Image Data array instead of relying on the browser's native blob generator
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+        // Dynamically import the WASM modules so they don't block the worker's initial load
+        const [{ encode: pngEncode }, { optimise: oxipngOptimize }] = await Promise.all([
+            import('@jsquash/png'),
+            import('@jsquash/oxipng')
+        ]);
+
+        // Step 1: Encode raw ImageData to a standard PNG ArrayBuffer
+        const rawPngBuffer = await pngEncode(imageData);
+
+        // Step 2: Pass the standard PNG buffer through the OxiPNG Rust WebAssembly algorithm
+        // Level 2 is a solid balance between intense compression and speed.
+        const optimizedPngBuffer = await oxipngOptimize(rawPngBuffer, { level: 2 });
+
+        // Convert the optimized ArrayBuffer back to an immutable Blob for the UI
+        const blob = new Blob([optimizedPngBuffer], { type: 'image/png' });
 
         self.postMessage({ id, blob, success: true });
 
