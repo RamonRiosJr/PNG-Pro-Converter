@@ -124,3 +124,33 @@ To evolve this from a simple utility into a compelling SaaS product, we need to 
 
 - **Feature**: Implement microscopic telemetry using PostHog or Mixpanel. We must measure the exact millisecond a user drops out of the funnel. Track conversions from the "Upload" action to the "Stripe Checkout" event.
 - **Value**: You cannot optimize what you do not measure. We need to continuously execute A/B tests on button colors, paywall timing, and pricing anchors based on hard telemetry, not intuition.
+
+### 12. B2B Enterprise Workspaces & SSO
+
+- **Feature**: Multi-player team environments with SAML/SSO login protocols, Role-Based Access Control (RBAC), and consolidated team billing.
+- **Value**: Scaling MRR from $10/user to $500/company. Single-player SaaS chums out; team-integrated SaaS becomes sticky.
+
+### 13. Zero-Knowledge Cryptography
+
+- **Feature**: End-to-End (E2E) encryption using a Web Crypto API before any image data touches our Edge Fallback servers or Cloud Storage syncs.
+- **Value**: A vital security moat necessary for onboarding healthcare, legal, and financial enterprise clients who require absolute data sovereignty.
+
+### 14. Programmatic SEO Architecture (Next.js / SSR)
+
+- **Feature**: Migrate from a standard Vite SPA to a Server-Side Rendered (Next.js) or Static Site architecture to dynamically generate thousands of landing pages matching user intent (e.g., "Convert HEIC to PNG for iOS", "Batch Resize WebP").
+- **Value**: Establishes a zero-cost, massively scalable user acquisition engine via Google Search.
+
+### 15. Global CLI Tool & Vercel/GitHub CI Plugin
+
+- **Feature**: Wrap our core WebAssembly Rust engine into a global npm CLI package (`png-pro convert`) and offer native GitHub Actions/Vercel integrations so developers can add it to their CI pipelines.
+- **Value**: Infiltrates developer workflows and opens a massive B2D (Business to Developer) secondary revenue stream.
+
+### 16. Local-First Data Engine (Offline Mode)
+
+- **Feature**: Implement IndexedDB or RxDB. The entire app should continue to work, store files, queue uploads, and process batches while the user is disconnected from Wi-Fi (like on an airplane), syncing only when re-connected.
+- **Value**: Flawless, non-blocking user experience that sets a premium benchmark.
+
+### 17. Autonomous Localization (i18n)
+
+- **Feature**: Auto-detect the user's browser language and dynamically render the application in multiple languages using JSON dictionaries and AI translation APIs.
+- **Value**: Instantly multiplies the Total Addressable Market (TAM) beyond English-speaking cohorts.
