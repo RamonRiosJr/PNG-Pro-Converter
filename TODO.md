@@ -54,10 +54,10 @@ As a Senior Systems Architect, here is the brutal evaluation of the current stat
 ## 📝 Roadmap / Backlog
 
 - [ ] **Refactor**: Move Image converting logic to a `Web Worker` (`OffscreenCanvas`).
-- [ ] **Performance**: Dynamically import `JSZip` to cut down the main bundle size.
+- [x] **Performance**: Dynamically import `JSZip` to cut down the main bundle size.
 - [ ] **Bug Fix**: Fix the "Reduction" UI to handle size increases when converting to lossless PNGs.
 - [ ] **Memory**: Add `useEffect` cleanups to revoke Object URLs on component unmounts.
-- [ ] **Architecture**: Extract `App.tsx` state and processing into `useImageProcessor` hook.
+- [x] **Architecture**: Extract `App.tsx` state and processing into `useImageProcessor` hook.
 - [ ] **Feature**: Support WebAssembly PNG compression (e.g. `squoosh` / `oxipng`) for genuine *compression*, rather than just format conversion.
 - [ ] **Testing**: Implement a Vitest configuration and achieve 80% coverage on utils and hooks.
 
