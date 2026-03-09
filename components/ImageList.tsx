@@ -14,7 +14,7 @@ const ImageListItem: React.FC<{ image: ProcessedImage }> = ({ image }) => {
     image.status === 'done' && image.newSize
       ? ((image.originalSize - image.newSize) / image.originalSize) * 100
       : 0;
-      
+
   const handleDownload = () => {
     if (!image.processedBlob) return;
     const link = document.createElement('a');
@@ -36,22 +36,22 @@ const ImageListItem: React.FC<{ image: ProcessedImage }> = ({ image }) => {
       </div>
       <div className="p-4">
         <div className="flex justify-between items-start gap-2">
-            <p className="text-sm font-medium text-slate-300 truncate w-full" title={image.originalFile.name}>
-              {image.originalFile.name}
-            </p>
+          <p className="text-sm font-medium text-slate-300 truncate w-full" title={image.originalFile.name}>
+            {image.originalFile.name}
+          </p>
           {image.status === 'processing' && <Spinner />}
           {image.status === 'done' && <CheckCircleIcon />}
           {image.status === 'error' && <AlertTriangleIcon />}
         </div>
-        
+
         {image.status === 'pending' && (
           <p className="text-xs text-slate-400 mt-1">
             Original: {formatBytes(image.originalSize)}
           </p>
         )}
-        
+
         {image.status === 'processing' && (
-           <p className="text-xs text-blue-400 mt-1 animate-pulse">Converting...</p>
+          <p className="text-xs text-blue-400 mt-1 animate-pulse">Converting...</p>
         )}
 
         {image.status === 'done' && image.newSize !== null && (
@@ -64,9 +64,13 @@ const ImageListItem: React.FC<{ image: ProcessedImage }> = ({ image }) => {
               <span className="text-slate-400">Converted:</span>
               <span className="text-slate-300 font-mono">{formatBytes(image.newSize)}</span>
             </div>
-             <div className="flex justify-between mt-1 pt-1 border-t border-slate-700">
-              <span className="font-semibold text-green-400">Reduction:</span>
-              <span className="font-semibold text-green-400 font-mono">{reduction.toFixed(1)}%</span>
+            <div className="flex justify-between mt-1 pt-1 border-t border-slate-700">
+              <span className={`font-semibold ${reduction > 0 ? 'text-green-400' : 'text-amber-400'}`}>
+                {reduction > 0 ? 'Reduction:' : 'Increase:'}
+              </span>
+              <span className={`font-semibold font-mono ${reduction > 0 ? 'text-green-400' : 'text-amber-400'}`}>
+                {Math.abs(reduction).toFixed(1)}%
+              </span>
             </div>
           </div>
         )}
@@ -76,9 +80,9 @@ const ImageListItem: React.FC<{ image: ProcessedImage }> = ({ image }) => {
             Error: {image.error || 'Conversion failed'}
           </p>
         )}
-        
+
         {image.status === 'done' && (
-          <button 
+          <button
             onClick={handleDownload}
             className="mt-4 w-full flex items-center justify-center gap-2 text-sm bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold py-2 px-4 rounded-md transition-colors"
           >
