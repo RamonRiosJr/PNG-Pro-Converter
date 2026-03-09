@@ -1,15 +1,19 @@
 {
-  "name": "png-pro-converter",
+  "name": "lumina-image-transcoder",
   "private": true,
-  "description": "A fast, privacy-first, client-side application for converting and compressing images to PNG format.",
+  "description": "Lumina: A high-performance, zero-knowledge, WebAssembly-powered image transcoding and compression pipeline for enterprise B2B SaaS.",
   "keywords": [
     "react",
     "vite",
     "typescript",
-    "png-converter",
-    "image-compression",
-    "client-side",
-    "privacy"
+    "image-transcoder",
+    "webassembly",
+    "wasm",
+    "compression",
+    "zero-knowledge",
+    "edge-computing",
+    "pwa",
+    "image-compression"
   ],
   "version": "0.0.0",
   "type": "module",
