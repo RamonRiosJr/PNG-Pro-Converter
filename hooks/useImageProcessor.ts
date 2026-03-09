@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { usePostHog } from 'posthog-js/react';
 import { ProcessedImage } from '../types';
 
 export const useImageProcessor = () => {
+    const posthog = usePostHog();
     const [images, setImages] = useState<ProcessedImage[]>([]);
     const [appStatus, setAppStatus] = useState<'idle' | 'processing' | 'done'>('idle');
 
@@ -15,6 +17,10 @@ export const useImageProcessor = () => {
     }, [images]);
 
     const handleFileSelect = useCallback((files: FileList) => {
+        posthog?.capture('interaction: files_uploaded', {
+            file_count: files.length
+        });
+
         // Revoke old URLs to prevent memory leaks during re-uploads
         setImages(prevImages => {
             prevImages.forEach(img => URL.revokeObjectURL(img.previewUrl));
@@ -79,6 +85,12 @@ export const useImageProcessor = () => {
 
     const handleProcessImages = useCallback(async () => {
         setAppStatus('processing');
+
+        posthog?.capture('conversion: started_batch', {
+            image_count: images.length,
+            total_original_bytes: images.reduce((acc, img) => acc + img.originalSize, 0)
+        });
+
         setImages((prevImages) =>
             prevImages.map((img) => ({ ...img, status: 'processing' }))
         );
@@ -90,13 +102,18 @@ export const useImageProcessor = () => {
         const processQueue = [...images];
         const executing = new Set<Promise<ProcessedImage>>();
 
+        let successCount = 0;
+        let errorCount = 0;
+
         for (const image of processQueue) {
             const p = processImage(image)
                 .then(processed => {
+                    successCount++;
                     setImages(prev => prev.map(img => img.id === processed.id ? processed : img));
                     return processed;
                 })
                 .catch(error => {
+                    errorCount++;
                     console.error(`Failed to process ${image.originalFile.name}:`, error);
                     const errorResult = { ...image, status: 'error' as const, error: error.message };
                     setImages(prev => prev.map(img => img.id === errorResult.id ? errorResult : img));
@@ -113,6 +130,11 @@ export const useImageProcessor = () => {
 
         await Promise.all(executing);
         setAppStatus('done');
+
+        posthog?.capture('conversion: completed_batch', {
+            success_count: successCount,
+            error_count: errorCount
+        });
     }, [images, processImage]);
 
     const handleDownloadAll = useCallback(async () => {
@@ -121,11 +143,15 @@ export const useImageProcessor = () => {
         const JSZip = JSZipModule.default;
 
         const zip = new JSZip();
-        images
-            .filter((image) => image.status === 'done' && image.processedBlob)
-            .forEach((image) => {
-                zip.file(image.newName, image.processedBlob!);
-            });
+        const doneImages = images.filter((image) => image.status === 'done' && image.processedBlob);
+
+        posthog?.capture('interaction: downloaded_zip', {
+            file_count: doneImages.length
+        });
+
+        doneImages.forEach((image) => {
+            zip.file(image.newName, image.processedBlob!);
+        });
 
         const zipBlob = await zip.generateAsync({ type: 'blob' });
         const link = document.createElement('a');
