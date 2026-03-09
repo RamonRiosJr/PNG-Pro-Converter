@@ -59,7 +59,7 @@ As a Senior Systems Architect, here is the brutal evaluation of the current stat
 - [x] **Memory**: Add `useEffect` cleanups to revoke Object URLs on component unmounts.
 - [x] **Architecture**: Extract `App.tsx` state and processing into `useImageProcessor` hook.
 - [ ] **Feature**: Support WebAssembly PNG compression (e.g. `squoosh` / `oxipng`) for genuine *compression*, rather than just format conversion.
-- [ ] **Testing**: Implement a Vitest configuration and achieve 80% coverage on utils and hooks.
+- [x] **Testing**: Implement a Vitest configuration and achieve 80% coverage on utils and hooks.
 
 ---
 
