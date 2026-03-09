@@ -104,3 +104,23 @@ To evolve this from a simple utility into a compelling SaaS product, we need to 
   - **libimagequant (WASM)**: For high-quality, smart lossy PNG compression (creating PNG-8s that are 70%+ smaller but look identical to the naked eye).
   - **WebCodecs API Hardware Acceleration**: Leverage the user's native GPU via the modern `WebCodecs API` to rapidly transcode into modern, vastly smaller web formats like AVIF and WebP for users who don't strictly need PNGs.
 - **Value**: Establishes the product as a state-of-the-art engineering tool. High-end compression can be locked behind the "Pro" Tier, convincing developers and agencies to upgrade.
+
+### 8. Edge Computing & Hybrid Fallback (The "Speed of Light" Architecture)
+
+- **Feature**: If the user's local hardware (e.g., a low-power mobile device) is too slow to execute WASM compression in under 2 seconds, silently fallback to **Cloudflare Workers** or **V8 Edge Functions** to execute the compression on a server geographically closest to them.
+- **Value**: Provides a magical, zero-latency UX regardless of the user's local hardware constraints. Elite engineering commands elite pricing.
+
+### 9. AI-Powered Vision & Neural Upscaling
+
+- **Feature**: Integrate real-time AI models (running locally via WebGL/WebGPU if possible) to allow lossless **AI upscaling** (making small images 4x larger without losing quality) and intelligent **background removal** before format conversion.
+- **Value**: Transforms a simple utility into an indispensable creative suite. Users will absolutely pay high MRR for reliable AI upscaling that doesn't require a heavy desktop app.
+
+### 10. True Progressive Web App (PWA) & Frictionless Install
+
+- **Feature**: Convert the application into a pure PWA. Add Service Workers and manifest configurations so the app can be installed directly to macOS, Windows, iOS, and Android home screens bypassing app stores entirely.
+- **Value**: Bypassing the 30% Apple/Google tax. Furthermore, having a persistent icon on the user's machine radically reduces churn.
+
+### 11. Conversion Physics & Telemetry (PostHog)
+
+- **Feature**: Implement microscopic telemetry using PostHog or Mixpanel. We must measure the exact millisecond a user drops out of the funnel. Track conversions from the "Upload" action to the "Stripe Checkout" event.
+- **Value**: You cannot optimize what you do not measure. We need to continuously execute A/B tests on button colors, paywall timing, and pricing anchors based on hard telemetry, not intuition.
