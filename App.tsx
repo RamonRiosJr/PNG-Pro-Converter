@@ -1,5 +1,6 @@
 import React from 'react';
 import { Header } from './components/Header';
+import { TopNav } from './components/TopNav';
 import { FileUploader } from './components/FileUploader';
 import { ImageList } from './components/ImageList';
 import { ActionButton } from './components/ActionButton';
@@ -17,8 +18,9 @@ const App: React.FC = () => {
   } = useImageProcessor();
 
   return (
-    <div className="min-h-screen font-sans antialiased">
-      <main className="container mx-auto px-4 py-8 md:py-12">
+    <div className="min-h-screen font-sans antialiased relative">
+      <TopNav />
+      <main className="container mx-auto px-4 py-16 md:py-24">
         <Header />
 
         {images.length === 0 ? (

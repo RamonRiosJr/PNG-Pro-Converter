@@ -94,7 +94,7 @@ To evolve this from a simple utility into a compelling SaaS product, we need to 
 
 ### 6. User Account & Authentication System (SaaS Foundation)
 
-- **Feature**: A fully authenticated dashboard using a PostgreSQL backend. Will include OAuth integrations for **Google**, **Microsoft**, alongside standard **Email/Password** Signup/Login flows.
+- [x] **Feature**: A fully authenticated dashboard using a PostgreSQL backend. Will include OAuth integrations for **Google**, **Microsoft**, alongside standard **Email/Password** Signup/Login flows.
 - **Value**: Allows users to save conversion history, manage cloud storage connection tokens, purchase paid subscription tiers (e.g., via Stripe), and manage API keys for integrations.
 
 ### 7. Next-Gen "Top Tech" Compression Suite (WASM & WebCodecs)
