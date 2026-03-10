@@ -60,6 +60,15 @@ As a Senior Systems Architect, here is the brutal evaluation of the current stat
 - [x] **Architecture**: Extract `App.tsx` state and processing into `useImageProcessor` hook.
 - [x] **Feature**: Support WebAssembly PNG compression (e.g. `squoosh` / `oxipng`) for genuine *compression*, rather than just format conversion.
 - [x] **Testing**: Implement a Vitest configuration and achieve 80% coverage on utils and hooks.
+- [x] **Auth**: A fully authenticated dashboard using a PostgreSQL backend (Supabase).
+- [x] **PWA**: True Progressive Web App configurations for frictionless UI install bypassing stores.
+- [x] **Telemetry**: Microscopic telemetry using PostHog to track funnel conversions.
+
+### 🎯 Next Phase Priorities (Pending Restart)
+
+1. **Zero-Knowledge Cryptography (E2E Encryption)**: Implement Web Crypto API AES-256 for ZIP generation to establish the enterprise security moat.
+2. **Local-First Data Engine**: Wire up the image queue into IndexedDB (RxDB/Dexie) so tab closures do not destroy sessions or batches.
+3. **Programmatic SEO Platform**: Port the Vite environment over to Next.js App Router for dynamic server-side rendering of SEO conversion formats.
 
 ---
 
